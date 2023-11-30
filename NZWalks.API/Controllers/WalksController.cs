@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Mappings;
 using NZWalks.API.Models.Domain;
@@ -22,10 +23,11 @@ namespace NZWalks.API.Controllers
             this.mapper = mapper;
         }
 
+        //api/Walks?filterOn=Name&filterQuery=Land
         [HttpGet]
-        public async Task<IActionResult> GetAllWalksAsync() 
+        public async Task<IActionResult> GetAllWalksAsync([FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortOn, [FromQuery] bool isAscending = true, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize=1000) 
         {
-            var allWalks = await walksRepository.GetAllWalksAsync();
+            var allWalks = await walksRepository.GetAllWalksAsync(filterOn,filterQuery,sortOn,isAscending,pageNumber,pageSize);
             return Ok(mapper.Map<List<WalkDto>>(allWalks));
         }
 

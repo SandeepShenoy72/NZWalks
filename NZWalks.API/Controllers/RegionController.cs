@@ -46,12 +46,9 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         [ValidateModel]
         public async Task<IActionResult> CreateRegion([FromBody] AddRegionRequestDto AddregionDto)
-        {
-            
+        {    
                 var regionDomain = await regionRepository.CreateRegion(mapper.Map<Region>(AddregionDto));
                 return CreatedAtAction(nameof(GetRegionById), new { id = regionDomain.Id }, mapper.Map<RegionDto>(regionDomain));
-          
-            
         }
 
         [HttpPut]
